@@ -1,0 +1,40 @@
+﻿@page "/"
+@using InvoiceApp.Model
+
+@inherits HomeBase
+
+<PageTitle>Tech Test</PageTitle>
+
+<div class="mb-3 form-title" style="display: flex; justify-content: center; align-items: center;">
+    <div>Invoices</div>
+</div>
+
+<RadzenButton Text="Refresh Validation" Click="@LoadData" Size="ButtonSize.Small" Style="margin-bottom:20px" />
+<hr class="dashed">
+
+<RadzenDataGrid TItem="InvoiceResult" @ref="gridResults" Data="@results" RowRender="OnRowRender">
+    <Columns>
+        <RadzenDataGridColumn TItem="InvoiceResult" Property="InvoiceID" Title="Invoice ID" />
+        <RadzenDataGridColumn TItem="InvoiceResult" Property="SystemTotal" Title="System Total" />
+        <RadzenDataGridColumn TItem="InvoiceResult" Property="CalculatedTotal" Title="Calculated Total" />
+
+        <RadzenDataGridColumn TItem="InvoiceResult" Title="Status">
+            <Template Context="data">
+                @if (data.IsValid)
+                {
+                    <span style="color:green;">
+                        <RadzenIcon Icon="check_circle" Style="vertical-align:middle;" />
+                        <span style="margin-left:5px;">Valid</span>
+                    </span>
+                }
+                else
+                {
+                    <span style="color:red;">
+                        <RadzenIcon Icon="error" Style="vertical-align:middle;" />
+                        <span style="margin-left:5px;">Mismatch</span>
+                    </span>
+                }
+            </Template>
+        </RadzenDataGridColumn>
+    </Columns>
+</RadzenDataGrid>
